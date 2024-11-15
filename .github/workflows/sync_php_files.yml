@@ -23,7 +23,7 @@ jobs:
         root_dir=$(pwd)
         source_files_dir="$root_dir/apps/php/src"
         destination_dir="$root_dir/apps/phpfpmapache/src"
-        changed_files=$(echo ${{ github.event.changed_files }} | tr ',' '\n')
+        changed_files=$(echo "git diff --name-only HEAD^ HEAD -- 'apps/php/*'" | tr ',' '\n')
         for file in apt_install.sh cmd.sh extensions.ini php_extra.ini php_install.sh; do
           if echo "$changed_files" | grep -q "$file"; then
             cp -f "$source_files_dir/$file" "$destination_dir"
