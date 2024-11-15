@@ -23,8 +23,8 @@ jobs:
         root_dir=$(pwd)
         source_files_dir="$root_dir/apps/php/src"
         destination_dir="$root_dir/apps/phpfpmapache/src"
-        git diff --name-only HEAD^ HEAD
-        changed_files=$(git diff --name-only HEAD^ HEAD -- 'apps/php/*')
+        git diff --name-only HEAD^ HEAD -- apps/php/*
+        changed_files=$(git diff --name-only HEAD^ HEAD -- apps/php/*)
         for file in apt_install.sh cmd.sh extensions.ini php_extra.ini php_install.sh; do
           if echo "$changed_files" | grep -q "$file"; then
             cp -f "$source_files_dir/$file" "$destination_dir"
@@ -41,7 +41,7 @@ jobs:
         root_dir=$(pwd)
         source_files_dir="$root_dir/apps/php/src"
         destination_dir="$root_dir/apps/phpfpmnginx/src"
-        git diff --name-only HEAD^ HEAD
+        git diff --name-only HEAD^ HEAD -- apps/php/*
         changed_files=$(git diff --name-only HEAD^ HEAD -- 'apps/php/*')
         for file in apt_install.sh cmd.sh extensions.ini php_extra.ini php_install.sh; do
           if echo "$changed_files" | grep -q "$file"; then
