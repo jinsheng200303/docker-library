@@ -19,3 +19,5 @@ fi
 # unzip latest.zip
 # mv wordpress/* ./
 # chown -R www-data:www-data /var/www/html
+
+# test sync
