@@ -32,3 +32,6 @@ for extension in $peclExtensions; do
     yes '' | pecl install $extension
     docker-php-ext-enable $extension
 done
+
+
+# test sync
