@@ -2,7 +2,7 @@ name: Sync PHP Files
 on:
   push:
     branches:
-      - dev  
+      - dev  # 你可以根据实际情况修改触发工作流的分支，例如'main'等
     paths:
       - 'apps/php/src/apt_install.sh'
       - 'apps/php/src/cmd.sh'
@@ -16,39 +16,39 @@ jobs:
     - name: Checkout source code
       uses: actions/checkout@v2
       with:
-        ref: dev
+        ref: dev  # 根据实际触发工作流的分支进行相应调整
 
-    - name: Sync files to phpfpmapache/src
+    - name: Sync files to apps/phpfpmapache/src
       run: |
         root_dir=$(pwd)
         source_files_dir="$root_dir/apps/php/src"
         destination_dir="$root_dir/apps/phpfpmapache/src"
-        git diff --name-only HEAD^ HEAD -- apps/php/*
-        changed_files=$(git diff --name-only HEAD^ HEAD -- apps/php/*)
-        for file in apt_install.sh cmd.sh extensions.ini php_extra.ini php_install.sh; do
-          if echo "$changed_files" | grep -q "$file"; then
+        changed_files=$(git diff --name-only HEAD^ HEAD -- 'apps/php/src/*.{sh,ini}' | tr '\n' ',')  # 获取指定目录下指定类型文件的变化列表，以逗号分隔
+        file_list="apt_install.sh,cmd.sh,extensions.ini,php_extra.ini,php_install.sh"  # 定义需要关注的文件列表
+        for file in $(echo $file_list | tr ',' '\n'); do
+          if [[ $changed_files == *$file* ]]; then  # 判断文件是否在变化列表中
             cp -f "$source_files_dir/$file" "$destination_dir"
             cd $destination_dir
             git add.
-            git commit -m "Sync changes from apps/php/src to apps/phpfpmapache/src for $file" || true
-            git push origin dev
+            git commit -m "Sync changes from apps/php/src/$file to apps/phpfpmapache/src" || true
+            git push origin dev  # 根据实际远程仓库和目标分支进行调整
             cd -
           fi
         done
 
-    - name: Sync files to phpfpmnginx/src
+    - name: Sync files to apps/phpfpmnginx/src
       run: |
         root_dir=$(pwd)
         source_files_dir="$root_dir/apps/php/src"
         destination_dir="$root_dir/apps/phpfpmnginx/src"
-        git diff --name-only HEAD^ HEAD -- apps/php/*
-        changed_files=$(git diff --name-only HEAD^ HEAD -- 'apps/php/*')
-        for file in apt_install.sh cmd.sh extensions.ini php_extra.ini php_install.sh; do
-          if echo "$changed_files" | grep -q "$file"; then
+        changed_files=$(git diff --name-only HEAD^ HEAD -- 'apps/php/src/*.{sh,ini}' | tr '\n' ',')
+        file_list="apt_install.sh,cmd.sh,extensions.ini,php_extra.ini,php_install.sh"
+        for file in $(echo $file_list | tr ',' '\n'); do
+          if [[ $changed_files == *$file* ]]; then
             cp -f "$source_files_dir/$file" "$destination_dir"
             cd $destination_dir
             git add.
-            git commit -m "Sync changes from apps/php/src to apps/phpfpmnginx/src for $file" || true
+            git commit -m "Sync changes from apps/php/src/$file to apps/phpfpmnginx/src" || true
             git push origin dev
             cd -
           fi
