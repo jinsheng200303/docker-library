@@ -17,7 +17,6 @@ jobs:
       uses: actions/checkout@v2
       with:
         ref: dev
-        token: ${{ secrets.GIT_TOKEN }}
 
     - name: Sync files to apps/phpfpmapache/src
       run: |
@@ -26,14 +25,7 @@ jobs:
         destination_dir="$root_dir/apps/phpfpmapache/src"
         file_list="apt_install.sh,cmd.sh,extensions.ini,php_extra.ini,php_install.sh"
         for file in $(echo $file_list | tr ',' '\n'); do
-          echo $file
           cp -f "$source_files_dir/$file" "$destination_dir"
-          cd $destination_dir
-          git add .
-          git commit -m "Sync changes from apps/php/src/$file to apps/phpfpmapache/src" || true
-          git push origin dev
-          cd -
-          echo "success"
         done
 
     - name: Sync files to apps/phpfpmnginx/src
@@ -43,12 +35,10 @@ jobs:
         destination_dir="$root_dir/apps/phpfpmnginx/src"
         file_list="apt_install.sh,cmd.sh,extensions.ini,php_extra.ini,php_install.sh"
         for file in $(echo $file_list | tr ',' '\n'); do
-          echo $file
           cp -f "$source_files_dir/$file" "$destination_dir"
-          cd $destination_dir
-          git add .
-          git commit -m "Sync changes from apps/php/src/$file to apps/phpfpmnginx/src" || true
-          git push origin dev
-          cd -
-          echo "success"
         done
+
+    - name: Commit and push changes
+      uses: stefanzweifel/git-auto-commit-action@v4
+      with:
+        commit_message: Build Plugin For Release
