@@ -23,7 +23,7 @@ jobs:
         root_dir=$(pwd)
         source_files_dir="$root_dir/apps/php/src"
         destination_dir="$root_dir/apps/phpfpmapache/src"
-        changed_files=$(echo ${{ github.event.changed_files }} | tr ',' '\n')
+        changed_files=$(echo ${{ github.event.changes }} | tr ',' '\n')
         echo "get changed files list"
         echo $changed_files
         file_list="apt_install.sh,cmd.sh,extensions.ini,php_extra.ini,php_install.sh"
@@ -45,7 +45,7 @@ jobs:
         root_dir=$(pwd)
         source_files_dir="$root_dir/apps/php/src"
         destination_dir="$root_dir/apps/phpfpmnginx/src"
-        changed_files=$(echo ${{ github.event.changed_files }} | tr ',' '\n')
+        changed_files=$(echo ${{ github.event.changes }} | tr ',' '\n')
         echo "get changed files list"
         echo $changed_files
         file_list="apt_install.sh,cmd.sh,extensions.ini,php_extra.ini,php_install.sh"
