@@ -23,21 +23,16 @@ jobs:
         root_dir=$(pwd)
         source_files_dir="$root_dir/apps/php/src"
         destination_dir="$root_dir/apps/phpfpmapache/src"
-        changed_files=$(echo ${{ github.event.changes }} | tr ',' '\n')
-        echo "get changed files list"
-        echo $changed_files
         file_list="apt_install.sh,cmd.sh,extensions.ini,php_extra.ini,php_install.sh"
         for file in $(echo $file_list | tr ',' '\n'); do
           echo $file
-          if echo "$changed_files" | grep -q "$file"; then
-            cp -f "$source_files_dir/$file" "$destination_dir"
-            cd $destination_dir
-            git add.
-            git commit -m "Sync changes from apps/php/src/$file to apps/phpfpmapache/src" || true
-            git push origin dev
-            cd -
-            echo "success"
-          fi
+          cp -f "$source_files_dir/$file" "$destination_dir"
+          cd $destination_dir
+          git add.
+          git commit -m "Sync changes from apps/php/src/$file to apps/phpfpmapache/src" || true
+          git push origin dev
+          cd -
+          echo "success"
         done
 
     - name: Sync files to apps/phpfpmnginx/src
@@ -45,19 +40,14 @@ jobs:
         root_dir=$(pwd)
         source_files_dir="$root_dir/apps/php/src"
         destination_dir="$root_dir/apps/phpfpmnginx/src"
-        changed_files=$(echo ${{ github.event.changes }} | tr ',' '\n')
-        echo "get changed files list"
-        echo $changed_files
         file_list="apt_install.sh,cmd.sh,extensions.ini,php_extra.ini,php_install.sh"
         for file in $(echo $file_list | tr ',' '\n'); do
           echo $file
-          if echo "$changed_files" | grep -q "$file"; then
-            cp -f "$source_files_dir/$file" "$destination_dir"
-            cd $destination_dir
-            git add.
-            git commit -m "Sync changes from apps/php/src/$file to apps/phpfpmnginx/src" || true
-            git push origin dev
-            cd -
-            echo "success"
-          fi
+          cp -f "$source_files_dir/$file" "$destination_dir"
+          cd $destination_dir
+          git add.
+          git commit -m "Sync changes from apps/php/src/$file to apps/phpfpmnginx/src" || true
+          git push origin dev
+          cd -
+          echo "success"
         done
