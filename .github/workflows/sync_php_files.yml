@@ -24,6 +24,7 @@ jobs:
         source_files_dir="$root_dir/apps/php/src"
         destination_dir="$root_dir/apps/phpfpmapache/src"
         changed_files=$(echo ${{ github.event.changed_files }} | tr ',' '\n')
+        echo "get changed files list"
         file_list="apt_install.sh,cmd.sh,extensions.ini,php_extra.ini,php_install.sh"
         for file in $(echo $file_list | tr ',' '\n'); do
           if echo "$changed_files" | grep -q "$file"; then
@@ -33,6 +34,7 @@ jobs:
             git commit -m "Sync changes from apps/php/src/$file to apps/phpfpmapache/src" || true
             git push origin dev
             cd -
+            echo "success"
           fi
         done
 
@@ -42,6 +44,7 @@ jobs:
         source_files_dir="$root_dir/apps/php/src"
         destination_dir="$root_dir/apps/phpfpmnginx/src"
         changed_files=$(echo ${{ github.event.changed_files }} | tr ',' '\n')
+        echo "get changed files list"
         file_list="apt_install.sh,cmd.sh,extensions.ini,php_extra.ini,php_install.sh"
         for file in $(echo $file_list | tr ',' '\n'); do
           if echo "$changed_files" | grep -q "$file"; then
@@ -51,6 +54,7 @@ jobs:
             git commit -m "Sync changes from apps/php/src/$file to apps/phpfpmnginx/src" || true
             git push origin dev
             cd -
+            echo "success"
           fi
         done
         
