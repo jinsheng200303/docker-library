@@ -18,4 +18,3 @@ for package in $packages; do
         echo "$package failed to install"
     fi
 done
-# test sync 14
