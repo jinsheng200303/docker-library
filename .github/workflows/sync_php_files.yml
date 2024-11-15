@@ -28,7 +28,7 @@ jobs:
           echo $file
           cp -f "$source_files_dir/$file" "$destination_dir"
           cd $destination_dir
-          git add.
+          git add .
           git commit -m "Sync changes from apps/php/src/$file to apps/phpfpmapache/src" || true
           git push origin dev
           cd -
@@ -45,7 +45,7 @@ jobs:
           echo $file
           cp -f "$source_files_dir/$file" "$destination_dir"
           cd $destination_dir
-          git add.
+          git add .
           git commit -m "Sync changes from apps/php/src/$file to apps/phpfpmnginx/src" || true
           git push origin dev
           cd -
